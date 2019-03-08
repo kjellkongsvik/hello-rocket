@@ -7,12 +7,14 @@ WORKDIR /app
 
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
-
+RUN cargo test
 RUN cargo build --release --target=x86_64-unknown-linux-musl
 RUN rm src/*.rs
 
 COPY ./src ./src
 RUN rm -rf ./target/x86_64-unknown-linux-musl/release/deps/hello*
+
+RUN cargo test
 RUN cargo build --release --target=x86_64-unknown-linux-musl
 
 FROM scratch
